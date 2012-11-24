@@ -53,6 +53,7 @@ def blog_index():
 
     username = login_check()  # see if user is logged in
 
+    #db.posts.ensureIndex({date: -1})
     cursor = posts.find().sort('date', direction=-1).limit(10)
     l=[]
 
@@ -81,6 +82,8 @@ def posts_by_tag(tag="notfound"):
     username = login_check()  # see if user is logged in
 
     tag = cgi.escape(tag)
+
+    #db.posts.ensureIndex({tags: 1})
     cursor = posts.find({'tags':tag}).sort('date', direction=-1).limit(10)
     l=[]
 
@@ -114,6 +117,7 @@ def show_post(permalink="notfound"):
     path_re = re.compile(r"^([^\.]+).json$")
 
     print "about to query on permalink = ", permalink
+    #db.posts.ensureIndex({permalink: 1})
     post = posts.find_one({'permalink':permalink})
 
     if post == None:
